@@ -12,6 +12,8 @@
 		613B8B901D49FFA5004F0096 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B8E1D49FFA5004F0096 /* Main.storyboard */; };
 		613B8B921D49FFA5004F0096 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B911D49FFA5004F0096 /* Assets.xcassets */; };
 		613B8B951D49FFA5004F0096 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B931D49FFA5004F0096 /* LaunchScreen.storyboard */; };
+		613B8B9E1D4A511B004F0096 /* SWActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B8B9D1D4A511B004F0096 /* SWActionSheet.swift */; };
+		613B8BA01D4A51BE004F0096 /* SWActionSheetTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B8B9F1D4A51BE004F0096 /* SWActionSheetTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		613B8B911D49FFA5004F0096 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		613B8B941D49FFA5004F0096 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		613B8B961D49FFA5004F0096 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		613B8B9D1D4A511B004F0096 /* SWActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SWActionSheet.swift; sourceTree = "<group>"; };
+		613B8B9F1D4A51BE004F0096 /* SWActionSheetTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SWActionSheetTheme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,7 @@
 		613B8B891D49FFA5004F0096 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				613B8B9C1D4A43AD004F0096 /* SWActionSheet */,
 				613B8B8A1D49FFA5004F0096 /* AppDelegate.swift */,
 				613B8B8C1D49FFA5004F0096 /* ViewController.swift */,
 				613B8B8E1D49FFA5004F0096 /* Main.storyboard */,
@@ -62,6 +67,15 @@
 				613B8B961D49FFA5004F0096 /* Info.plist */,
 			);
 			path = Demo;
+			sourceTree = "<group>";
+		};
+		613B8B9C1D4A43AD004F0096 /* SWActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				613B8B9D1D4A511B004F0096 /* SWActionSheet.swift */,
+				613B8B9F1D4A51BE004F0096 /* SWActionSheetTheme.swift */,
+			);
+			path = SWActionSheet;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +151,8 @@
 			files = (
 				613B8B8D1D49FFA5004F0096 /* ViewController.swift in Sources */,
 				613B8B8B1D49FFA5004F0096 /* AppDelegate.swift in Sources */,
+				613B8B9E1D4A511B004F0096 /* SWActionSheet.swift in Sources */,
+				613B8BA01D4A51BE004F0096 /* SWActionSheetTheme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +302,7 @@
 				613B8B9B1D49FFA5004F0096 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
