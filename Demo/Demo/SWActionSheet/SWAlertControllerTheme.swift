@@ -33,22 +33,15 @@ enum SWActionSheetShape {
  *
  *  Implement SWActionSheetThemeType to define custom theme
  */
-protocol SWActionSheetThemeType {
+protocol SWAlertControllerThemeType {
+    var overlayColor: UIColor { get }
+    
     var titleFont: UIFont { get }
-    var buttonFout: UIFont { get }
+    var buttonFont: UIFont { get }
+    var messageFont: UIFont { get }
     
     var titleTextColor: UIColor { get }
-    var normalButtonTextColor: UIColor { get }
-    var destructiveButtonTextColor: UIColor { get }
-    
-    var normalButtonHighlightTextColor: UIColor { get }
-    var destructiveButtonHighlightTextColor: UIColor { get }
-    
-    var normalButtonColor: UIColor { get }
-    var destructiveButtonColor: UIColor { get }
-    
-    var normalButtonHighlightColor: UIColor { get }
-    var destructiveButtonHighlightColor: UIColor { get }
+    var messageTextColor: UIColor { get }
     
     var animationSpeed: CGFloat { get }
     var animationSpringDamping: CGFloat { get }
@@ -56,27 +49,19 @@ protocol SWActionSheetThemeType {
     
     var borderColor: UIColor { get }
     var backgroundColor: UIColor { get }
-    var backdropShadowColor: UIColor { get }
     
     var shape: SWActionSheetShape { get }
 }
 
-public struct SWActionSheetTheme: SWActionSheetThemeType {
+public struct SWAlertControllerTheme: SWAlertControllerThemeType {
+    let overlayColor: UIColor
+    
     let titleFont: UIFont
-    let buttonFout: UIFont
+    let buttonFont: UIFont
+    let messageFont: UIFont
     
     let titleTextColor: UIColor
-    let normalButtonTextColor: UIColor
-    let destructiveButtonTextColor: UIColor
-    
-    let normalButtonHighlightTextColor: UIColor
-    let destructiveButtonHighlightTextColor: UIColor
-    
-    let normalButtonColor: UIColor
-    let destructiveButtonColor: UIColor
-    
-    let normalButtonHighlightColor: UIColor
-    let destructiveButtonHighlightColor: UIColor
+    let messageTextColor: UIColor
     
     let animationSpeed: CGFloat
     let animationSpringDamping: CGFloat
@@ -84,29 +69,22 @@ public struct SWActionSheetTheme: SWActionSheetThemeType {
     
     let borderColor: UIColor
     let backgroundColor: UIColor
-    let backdropShadowColor: UIColor
     
     let shape: SWActionSheetShape
     
-    static func defaultTheme() -> SWActionSheetThemeType {
+    static func defaultTheme() -> SWAlertControllerTheme {
         
-        let theme = SWActionSheetTheme(titleFont: UIFont.systemFontOfSize(16),
-                                       buttonFout: UIFont.systemFontOfSize(16),
-                                       titleTextColor: UIColor.blackColor(),
-                                       normalButtonTextColor: UIColor.blackColor(),
-                                       destructiveButtonTextColor: UIColor.redColor(),
-                                       normalButtonHighlightTextColor: UIColor.whiteColor(),
-                                       destructiveButtonHighlightTextColor: UIColor.whiteColor(),
-                                       normalButtonColor: UIColor.whiteColor(),
-                                       destructiveButtonColor: UIColor.whiteColor(),
-                                       normalButtonHighlightColor: UIColor.blackColor(),
-                                       destructiveButtonHighlightColor: UIColor.redColor(),
+        let theme = SWAlertControllerTheme(overlayColor: UIColor(r: 0, g: 0, b: 0, a: 0.5),
+                                       titleFont: UIFont.boldSystemFontOfSize(18),
+                                       buttonFont: UIFont.boldSystemFontOfSize(16),
+                                       messageFont: UIFont.systemFontOfSize(16),
+                                       titleTextColor: UIColor(r: 77, g: 77, b: 77),
+                                       messageTextColor: UIColor(r: 77, g: 77, b: 77),
                                        animationSpeed: 0.55,
                                        animationSpringDamping: 0.5,
                                        animationSpringVelocity: 0.3,
                                        borderColor: UIColor.whiteColor().colorWithAlphaComponent(0.25),
                                        backgroundColor: UIColor.customWhiteColor,
-                                       backdropShadowColor: UIColor.blackColor(),
                                        shape: .Rounded(2.0))
         return theme
     }
