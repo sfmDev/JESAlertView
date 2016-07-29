@@ -12,8 +12,8 @@
 		613B8B901D49FFA5004F0096 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B8E1D49FFA5004F0096 /* Main.storyboard */; };
 		613B8B921D49FFA5004F0096 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B911D49FFA5004F0096 /* Assets.xcassets */; };
 		613B8B951D49FFA5004F0096 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B931D49FFA5004F0096 /* LaunchScreen.storyboard */; };
-		613B8B9E1D4A511B004F0096 /* SWAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B8B9D1D4A511B004F0096 /* SWAlertController.swift */; };
-		613B8BA01D4A51BE004F0096 /* SWAlertControllerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B8B9F1D4A51BE004F0096 /* SWAlertControllerTheme.swift */; };
+		613B8BA61D4B6784004F0096 /* SWAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B8BA41D4B6784004F0096 /* SWAlertController.swift */; };
+		613B8BA71D4B6784004F0096 /* SWAlertControllerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B8BA51D4B6784004F0096 /* SWAlertControllerTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +24,8 @@
 		613B8B911D49FFA5004F0096 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		613B8B941D49FFA5004F0096 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		613B8B961D49FFA5004F0096 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		613B8B9D1D4A511B004F0096 /* SWAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SWAlertController.swift; sourceTree = "<group>"; };
-		613B8B9F1D4A51BE004F0096 /* SWAlertControllerTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SWAlertControllerTheme.swift; sourceTree = "<group>"; };
+		613B8BA41D4B6784004F0096 /* SWAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SWAlertController.swift; sourceTree = "<group>"; };
+		613B8BA51D4B6784004F0096 /* SWAlertControllerTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SWAlertControllerTheme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 		613B8B891D49FFA5004F0096 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				613B8B9C1D4A43AD004F0096 /* SWActionSheet */,
+				613B8BA31D4B6784004F0096 /* SWAlertController */,
 				613B8B8A1D49FFA5004F0096 /* AppDelegate.swift */,
 				613B8B8C1D49FFA5004F0096 /* ViewController.swift */,
 				613B8B8E1D49FFA5004F0096 /* Main.storyboard */,
@@ -69,13 +69,13 @@
 			path = Demo;
 			sourceTree = "<group>";
 		};
-		613B8B9C1D4A43AD004F0096 /* SWActionSheet */ = {
+		613B8BA31D4B6784004F0096 /* SWAlertController */ = {
 			isa = PBXGroup;
 			children = (
-				613B8B9D1D4A511B004F0096 /* SWAlertController.swift */,
-				613B8B9F1D4A51BE004F0096 /* SWAlertControllerTheme.swift */,
+				613B8BA41D4B6784004F0096 /* SWAlertController.swift */,
+				613B8BA51D4B6784004F0096 /* SWAlertControllerTheme.swift */,
 			);
-			path = SWActionSheet;
+			path = SWAlertController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,10 +149,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				613B8BA71D4B6784004F0096 /* SWAlertControllerTheme.swift in Sources */,
 				613B8B8D1D49FFA5004F0096 /* ViewController.swift in Sources */,
+				613B8BA61D4B6784004F0096 /* SWAlertController.swift in Sources */,
 				613B8B8B1D49FFA5004F0096 /* AppDelegate.swift in Sources */,
-				613B8B9E1D4A511B004F0096 /* SWAlertController.swift in Sources */,
-				613B8BA01D4A51BE004F0096 /* SWAlertControllerTheme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

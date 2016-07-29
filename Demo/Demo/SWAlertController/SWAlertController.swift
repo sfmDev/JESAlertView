@@ -250,12 +250,14 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
     private var keyboardHeight: CGFloat = 0.0
     private var cancelButtonTag = 0
 
-    convenience init(withTheme theme: SWAlertControllerTheme, preferredStyle: SWActionSheetStyle, title: String?, message: String? = nil, cancelButton: SWAlertActionStyle, destructiveButton: SWAlertActionStyle?, otherButtons: [SWAlertActionStyle], tapClosure: SWActionSheetTapColsure) {
+    convenience init(withTheme theme: SWAlertControllerTheme, preferredStyle: SWActionSheetStyle, title: String? = nil, message: String? = nil, cancelButton: SWAlertActionStyle, destructiveButton: SWAlertActionStyle?, otherButtons: [SWAlertActionStyle], tapClosure: SWActionSheetTapColsure) {
         self.init(nibName: nil, bundle: nil)
         
         self.title = title
         self.message = message
         self.preferredStyle = preferredStyle
+        
+        self.alertView.userInteractionEnabled = false
         
         self.providesPresentationContextTransitionStyle = true
         self.definesPresentationContext = true
@@ -406,7 +408,8 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         let buttonAreaViewTopSpaceConstraint = NSLayoutConstraint(item: buttonAreaView, attribute: .Top, relatedBy: .Equal, toItem: buttonAreaScrollView, attribute: .Top, multiplier: 1.0, constant: 0.0)
         let buttonAreaViewLeftSpaceConstraint = NSLayoutConstraint(item: buttonAreaView, attribute: .Left, relatedBy: .Equal, toItem: buttonAreaScrollView, attribute: .Left, multiplier: 1.0, constant: 0.0)
         let buttonAreaViewWidthConstraint = NSLayoutConstraint(item: buttonAreaView, attribute: .Width, relatedBy: .Equal, toItem: buttonAreaScrollView, attribute: .Width, multiplier: 1.0, constant: 0.0)
-        buttonAreaScrollView.addConstraints([buttonAreaScrollViewHeightConstraint, buttonAreaViewTopSpaceConstraint, buttonAreaViewLeftSpaceConstraint, buttonAreaViewWidthConstraint])
+        let buttonAreaViewHeightConstraint = NSLayoutConstraint(item: buttonAreaView, attribute: .Height, relatedBy: .Equal, toItem: buttonAreaScrollView, attribute: .Height, multiplier: 1.0, constant: 0.0)
+        buttonAreaScrollView.addConstraints([buttonAreaScrollViewHeightConstraint, buttonAreaViewTopSpaceConstraint, buttonAreaViewLeftSpaceConstraint, buttonAreaViewWidthConstraint, buttonAreaViewHeightConstraint])
         
         // MARK: - ButtonArea Constraint
         let buttonContainerTopSpaceConstraint = NSLayoutConstraint(item: buttonContainer, attribute: .Top, relatedBy: .Equal, toItem: buttonAreaView, attribute: .Top, multiplier: 1.0, constant: 0.0)
@@ -416,7 +419,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         // MARK: - ButtonContainer Constraint
         let buttonContainerWidthConstraint = NSLayoutConstraint(item: buttonContainer, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: innerContentWidth)
         buttonContainerHeightConstraint = NSLayoutConstraint(item: buttonContainer, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: buttonHeight)
-        buttonContainer.addConstraints([buttonContainerWidthConstraint])
+        buttonContainer.addConstraints([buttonContainerWidthConstraint, buttonContainerHeightConstraint])
         
         let hasCancelButton = otherButtons.contains {
             switch $0 {
@@ -468,30 +471,31 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         super.viewDidAppear(animated)
         
         if (!isAlert() && cancelButtonTag != Handler.BaseTag) {
-            let tapGesture = UITapGestureRecognizer(target: self, action: .handleContainerViewTapGesture)
-            containerView.addGestureRecognizer(tapGesture)
+            let tap = UITapGestureRecognizer(target: self, action: .handleContainerViewTapGesture)
+            tap.delegate = self
+            containerView.addGestureRecognizer(tap)
         }
     }
     
+    // MARK: - Add buttons method
     private func addButtons(withButtons buttons: [SWAlertActionStyle]) -> [UIButton] {
         // Add Button
         return buttons.map { (buttonStyle) -> UIButton in
-            let button = UIButton()
+            let button = UIButton(type: .Custom)
             button.layer.masksToBounds = true
             button.setTitle(buttonStyle.buttonTitle, forState: .Normal)
             button.layer.cornerRadius = self.theme.shape.cornerRadius
-            button.addTarget(self, action: .alertActionButtonTapped, forControlEvents: .TouchUpInside)
+            switch buttonStyle {
+            case .Cancel(_, _, _): button.addTarget(self, action: .handleContainerViewTapGesture, forControlEvents: .TouchUpInside)
+            default: button.addTarget(self, action: .alertActionButtonTapped, forControlEvents: .TouchUpInside)
+            }
             button.tag = Handler.BaseTag + buttons.indexOf { return $0.buttonTitle == buttonStyle.buttonTitle }!
             buttonContainer.addSubview(button)
             return button
         }
     }
     
-    // Button Tapped Action
-    func buttonTapped(sender: UIButton) {
-        
-    }
-    
+    // MARK: - Layout
     func layoutView() {
         if (layoutFlg) { return }
         layoutFlg = true
@@ -509,32 +513,32 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         let hasMessage: Bool = message != nil && message != ""
         
         var textAreaPositionY: CGFloat = alertViewPadding
-        if (!isAlert()) {textAreaPositionY += alertViewPadding}
+        if (!isAlert()) { textAreaPositionY += alertViewPadding }
         
         // TitleLabel
         if (hasTitle) {
-            titleLabel.frame.size = CGSizeMake(innerContentWidth, 0.0)
+            titleLabel.frame.size    = CGSize(width: innerContentWidth, height: 0.0)
             titleLabel.numberOfLines = 0
             titleLabel.textAlignment = .Center
-            titleLabel.font = titleFont
-            titleLabel.textColor = titleTextColor
-            titleLabel.text = title
+            titleLabel.font          = titleFont
+            titleLabel.textColor     = titleTextColor
+            titleLabel.text          = title
             titleLabel.sizeToFit()
-            titleLabel.frame = CGRectMake(0, textAreaPositionY, innerContentWidth, titleLabel.frame.height)
+            titleLabel.frame         = CGRect(x: 0, y: textAreaPositionY, width: innerContentWidth, height: titleLabel.frame.height)
             textContainer.addSubview(titleLabel)
             textAreaPositionY += titleLabel.frame.height + 5.0
         }
         
         // MessageView
         if (hasMessage) {
-            messageView.frame.size = CGSizeMake(innerContentWidth, 0.0)
+            messageView.frame.size    = CGSize(width: innerContentWidth, height: 0.0)
             messageView.numberOfLines = 0
             messageView.textAlignment = .Center
-            messageView.font = messageFont
-            messageView.textColor = messageTextColor
-            messageView.text = message
+            messageView.font          = messageFont
+            messageView.textColor     = messageTextColor
+            messageView.text          = message
             messageView.sizeToFit()
-            messageView.frame = CGRectMake(0, textAreaPositionY, innerContentWidth, messageView.frame.height)
+            messageView.frame         = CGRect(x: 0, y: textAreaPositionY, width: innerContentWidth, height: messageView.frame.height)
             textContainer.addSubview(messageView)
             textAreaPositionY += messageView.frame.height + 5.0
         }
@@ -545,7 +549,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         
         // TextAreaScrollView
         textAreaHeight = textAreaPositionY
-        textAreaScrollView.contentSize = CGSizeMake(alertViewWidth, textAreaHeight)
+        textAreaScrollView.contentSize = CGSize(width: alertViewWidth, height: textAreaHeight)
         
         //------------------------------
         // ButtonArea Layout
@@ -564,7 +568,6 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
                 button.setTitleColor(style.buttonTitleColor, forState: .Normal)
                 button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Normal)
                 button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Highlighted)
-                button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Selected)
                 button.frame = CGRectMake(buttonPositionX, buttonAreaPositionY, buttonWidth, buttonHeight)
                 buttonPositionX += buttonMargin + buttonWidth
             }
@@ -580,7 +583,6 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
                     button.setTitleColor(style.buttonTitleColor, forState: .Normal)
                     button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Normal)
                     button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Highlighted)
-                    button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Selected)
                     button.frame = CGRectMake(0, buttonAreaPositionY, innerContentWidth, buttonHeight)
                     buttonAreaPositionY += buttonHeight + buttonMargin
                 }
@@ -593,13 +595,12 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
                 }
                 let button = buttonAreaScrollView.viewWithTag(cancelButtonTag) as! UIButton
                 let idx = buttons.indexOf(button)
-                let style = buttonStyles[idx! - 1]
+                let style = buttonStyles[idx!]
                 button.titleLabel?.font = self.theme.buttonFont
                 button.setTitleColor(style.buttonTitleColor, forState: .Normal)
                 button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Normal)
                 button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Highlighted)
-                button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Selected)
-                button.frame = CGRectMake(0, buttonAreaPositionY, innerContentWidth, buttonHeight)
+                button.frame = CGRect(x: 0, y: buttonAreaPositionY, width: innerContentWidth, height: buttonHeight)
                 buttonAreaPositionY += buttonHeight + buttonMargin
             }
             buttonAreaPositionY -= buttonMargin
@@ -612,7 +613,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         
         // ButtonAreaScrollView Height
         buttonAreaHeight = buttonAreaPositionY
-        buttonAreaScrollView.contentSize = CGSizeMake(alertViewWidth, buttonAreaHeight)
+        buttonAreaScrollView.contentSize = CGSize(width: alertViewWidth, height: buttonAreaHeight)
         buttonContainerHeightConstraint.constant = buttonAreaHeight
         
         //------------------------------
@@ -620,7 +621,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         //------------------------------
         // AlertView Height
         reloadAlertViewHeight()
-        alertView.frame.size = CGSizeMake(alertViewWidth, alertViewHeightConstraint.constant)
+        alertView.frame.size = CGSize(width: alertViewWidth, height: alertViewHeightConstraint.constant)
     }
     
     // Reload AlertView Height
@@ -634,7 +635,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         }
         let maxHeight = screenSize.height - keyboardHeight
         
-        // for avoiding constraint error
+        // For avoiding constraint error
         buttonAreaScrollViewHeightConstraint.constant = 0.0
         
         // AlertView Height Constraint
@@ -655,6 +656,11 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         buttonAreaScrollViewHeightConstraint.constant = buttonAreaScrollViewHeight
     }
     
+    // Button Tapped Action
+    func buttonTapped(sender: UIButton) {
+        print("12345")
+    }
+    
     // Handle ContainerView tap gesture
     func handleContainerViewTapGesture(sender: AnyObject) {
         // cancel action
@@ -663,11 +669,11 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
 
 }
 
-extension SWAlertController {
+extension SWAlertController: UIGestureRecognizerDelegate {
     
     // UIColor -> UIImage
     func createImageFromUIColor(color: UIColor) -> UIImage {
-        let rect = CGRectMake(0, 0, 1, 1)
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         UIGraphicsBeginImageContext(rect.size)
         let contextRef: CGContextRef = UIGraphicsGetCurrentContext()!
         CGContextSetFillColorWithColor(contextRef, color.CGColor)
@@ -681,7 +687,7 @@ extension SWAlertController {
         
     }
     
-    // MARK: UIViewControllerTransitioningDelegate Methods
+    // MARK: - UIViewControllerTransitioningDelegate Methods
     
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         layoutView()
@@ -691,4 +697,9 @@ extension SWAlertController {
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return SWAlertAnimation(isPresenting: false)
     }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        return !(touch.view is UIButton)
+    }
+    
 }

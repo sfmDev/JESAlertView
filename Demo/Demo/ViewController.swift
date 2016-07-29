@@ -12,10 +12,12 @@ class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Demo"
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        // 🌟 Usage 👇
         if indexPath.section == 0 {
             
         } else {
@@ -24,16 +26,15 @@ class ViewController: UITableViewController {
                 let theme = SWAlertControllerTheme.defaultTheme()
                 let actionSheet = SWAlertController(withTheme: theme,
                                                     preferredStyle: .ActionSheet,
-                                                    title: "12",
-                                                    message: "1234555",
-                                                    cancelButton: .Cancel("OK", UIColor.blackColor(), UIColor.whiteColor()),
-                                                    destructiveButton: .Destructive("DESTRUCTIVE", UIColor.blackColor(), UIColor.whiteColor()),
-                                                    otherButtons: [
-                                                        .Default("1", UIColor.blackColor(), UIColor.whiteColor()),
-                                                        .Default("2", UIColor.blackColor(), UIColor.whiteColor())
-                                                        ],
+                                                    cancelButton: .Cancel("CANCEL",
+                                                        UIColor.whiteColor(),
+                                                        UIColor(r: 127, g: 140, b: 141)),
+                                                    destructiveButton: .Destructive("OK",
+                                                        UIColor.whiteColor(),
+                                                        UIColor(r: 231, g: 76, b: 70)),
+                                                    otherButtons: [],
                                                     tapClosure: { (tappedButtonIndex) in
-                    print("\(tappedButtonIndex)")
+                    
                 })
                 presentViewController(actionSheet, animated: true, completion: nil)
             default: break
