@@ -28,7 +28,10 @@ class ViewController: UITableViewController {
                                                     message: "1234555",
                                                     cancelButton: .Cancel("OK", UIColor.blackColor(), UIColor.whiteColor()),
                                                     destructiveButton: .Destructive("DESTRUCTIVE", UIColor.blackColor(), UIColor.whiteColor()),
-                                                    otherButtons: [],
+                                                    otherButtons: [
+                                                        .Default("1", UIColor.blackColor(), UIColor.whiteColor()),
+                                                        .Default("2", UIColor.blackColor(), UIColor.whiteColor())
+                                                        ],
                                                     tapClosure: { (tappedButtonIndex) in
                     print("\(tappedButtonIndex)")
                 })
