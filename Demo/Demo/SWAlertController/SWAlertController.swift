@@ -257,8 +257,6 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         self.message = message
         self.preferredStyle = preferredStyle
         
-        self.alertView.userInteractionEnabled = false
-        
         self.providesPresentationContextTransitionStyle = true
         self.definesPresentationContext = true
         self.modalPresentationStyle = .Custom
