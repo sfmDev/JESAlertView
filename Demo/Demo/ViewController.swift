@@ -22,7 +22,7 @@ class ViewController: UITableViewController {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                let actionSheet = SWAlertController(withTheme: theme,
+                let alert = SWAlertController(withTheme: theme,
                                                     preferredStyle: .Alert,
                                                     cancelButton: .Cancel("CANCEL",
                                                         UIColor.whiteColor(),
@@ -34,9 +34,9 @@ class ViewController: UITableViewController {
                                                     tapClosure: { (tappedButtonIndex) in
                                                         print("Tapped button index is \(tappedButtonIndex)")
                                                     })
-                presentViewController(actionSheet, animated: true, completion: nil)
+                presentViewController(alert, animated: true, completion: nil)
             case 1:
-                let actionSheet = SWAlertController(withTheme: theme,
+                let alert = SWAlertController(withTheme: theme,
                                                     preferredStyle: .Alert,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
@@ -50,9 +50,9 @@ class ViewController: UITableViewController {
                                                     tapClosure: { (tappedButtonIndex) in
                                                         print("Tapped button index is \(tappedButtonIndex)")
                                                     })
-                presentViewController(actionSheet, animated: true, completion: nil)
+                presentViewController(alert, animated: true, completion: nil)
             case 2:
-                let actionSheet = SWAlertController(withTheme: theme,
+                let alert = SWAlertController(withTheme: theme,
                                                     preferredStyle: .Alert,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
@@ -76,7 +76,7 @@ class ViewController: UITableViewController {
                                                     tapClosure: { (tappedButtonIndex) in
                                                         print("Tapped button index is \(tappedButtonIndex)")
                                                     })
-                presentViewController(actionSheet, animated: true, completion: nil)
+                presentViewController(alert, animated: true, completion: nil)
             default: break
             }
         } else {

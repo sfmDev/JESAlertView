@@ -43,6 +43,8 @@ protocol SWAlertControllerThemeType {
     var titleTextColor: UIColor { get }
     var messageTextColor: UIColor { get }
     
+    // MARK: - Unused
+    /// Animation parameters will be used at next version
     var animationSpeed: CGFloat { get }
     var animationSpringDamping: CGFloat { get }
     var animationSpringVelocity: CGFloat { get }
