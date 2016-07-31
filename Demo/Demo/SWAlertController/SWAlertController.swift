@@ -64,7 +64,6 @@ private struct Handler {
 }
 
 private extension Selector {
-    static let handleAlertActionEnabledDidChangeNotification = #selector(SWAlertController.handleAlertActionEnabledDidChangeNotification(_:))
     static let alertActionButtonTapped = #selector(SWAlertController.buttonTapped(_:))
     static let handleContainerViewTapGesture = #selector(SWAlertController.handleContainerViewTapGesture(_:))
 }
@@ -155,6 +154,8 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
     
     var theme: SWAlertControllerTheme = SWAlertControllerTheme.defaultTheme()
     
+    var tappedButtonClosure: SWActionSheetTapColsure?
+    
     // AlertController Style
     private(set) var preferredStyle: SWActionSheetStyle = .ActionSheet
     
@@ -174,7 +175,8 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
     private var alertView = UIView()
     private var alertViewWidth: CGFloat = 270.0
     private var alertViewPadding: CGFloat = 15.0
-    private var innerContentWidth: CGFloat = 240.0
+    private var innerContentWidth: CGFloat = 270.0
+    private var innerButtonWidth: CGFloat = 240.0
     private var actionSheetBounceHeight: CGFloat = 20.0
     
     private var alertViewHeightConstraint: NSLayoutConstraint!
@@ -261,7 +263,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         self.definesPresentationContext = true
         self.modalPresentationStyle = .Custom
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: .handleAlertActionEnabledDidChangeNotification, name: Handler.AlertActionEnabledDidChangeNotification, object: nil)
+        self.tappedButtonClosure = tapClosure
         
         self.transitioningDelegate = self
         
@@ -278,6 +280,8 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
             alertViewPadding = 8.0
             innerContentWidth = (screenSize.height > screenSize.width) ? screenSize.width - alertViewPadding * 2 : screenSize.height - alertViewPadding * 2
             buttonMargin = 8.0
+        } else {
+            alertView.layer.cornerRadius = self.theme.shape.cornerRadius
         }
         
         // self.view
@@ -391,15 +395,23 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         // MARK: - TextAreaScrollView Constraint
         let textAreaViewTopSpaceConstraint = NSLayoutConstraint(item: textAreaView, attribute: .Top, relatedBy: .Equal, toItem: textAreaScrollView, attribute: .Top, multiplier: 1.0, constant: 0.0)
         let textAreaViewRightSpaceConstraint = NSLayoutConstraint(item: textAreaView, attribute: .Right, relatedBy: .Equal, toItem: textAreaScrollView, attribute: .Right, multiplier: 1.0, constant: 0.0)
+        let textAreaViewLeftSpaceConstraint = NSLayoutConstraint(item: textAreaView, attribute: .Left, relatedBy: .Equal, toItem: textAreaScrollView, attribute: .Left, multiplier: 1.0, constant: 0.0)
         let textAreaViewBottomSpaceConstraint = NSLayoutConstraint(item: textAreaView, attribute: .Bottom, relatedBy: .Equal, toItem: textAreaScrollView, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
         textAreaScrollView.addConstraints([
             textAreaViewTopSpaceConstraint, textAreaViewRightSpaceConstraint,
+            textAreaViewLeftSpaceConstraint,
             textAreaViewBottomSpaceConstraint])
         
         // MARK: - TextArea Constraint
         let textAreaViewHeightConstraint = NSLayoutConstraint(item: textAreaView, attribute: .Height, relatedBy: .Equal, toItem: textContainer, attribute: .Height, multiplier: 1.0, constant: 0.0)
         let textContainerTopSpaceConstraint = NSLayoutConstraint(item: textContainer, attribute: .Top, relatedBy: .Equal, toItem: textAreaView, attribute: .Top, multiplier: 1.0, constant: 0.0)
-        textAreaView.addConstraints([textAreaViewHeightConstraint, textContainerTopSpaceConstraint])
+        let textContainerLeftSpaceConstraint = NSLayoutConstraint(item: textContainer, attribute: .Left, relatedBy: .Equal, toItem: textAreaView, attribute: .Left, multiplier: 1.0, constant: 0.0)
+//        let textContainerRightSpaceConstraint = NSLayoutConstraint(item: textContainer, attribute: .Right, relatedBy: .Equal, toItem: textAreaView, attribute: .Right, multiplier: 1.0, constant: 0.0)
+        textAreaView.addConstraints([textAreaViewHeightConstraint, textContainerTopSpaceConstraint, textContainerLeftSpaceConstraint])
+        
+        let textContainerWidthConstraint = NSLayoutConstraint(item: textContainer, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: alertViewWidth)
+        textContainerHeightConstraint = NSLayoutConstraint(item: textContainer, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 0.0)
+        textContainer.addConstraints([textContainerWidthConstraint, textContainerHeightConstraint])
         
         // MARK: - ButtonAreaScrollView Constraint
         buttonAreaScrollViewHeightConstraint = NSLayoutConstraint(item: buttonAreaScrollView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 0.0)
@@ -415,7 +427,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         buttonAreaView.addConstraints([buttonContainerTopSpaceConstraint, buttonContainerCenterXConstraint])
         
         // MARK: - ButtonContainer Constraint
-        let buttonContainerWidthConstraint = NSLayoutConstraint(item: buttonContainer, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: innerContentWidth)
+        let buttonContainerWidthConstraint = NSLayoutConstraint(item: buttonContainer, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: self.isAlert() ? innerButtonWidth : innerContentWidth)
         buttonContainerHeightConstraint = NSLayoutConstraint(item: buttonContainer, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: buttonHeight)
         buttonContainer.addConstraints([buttonContainerWidthConstraint, buttonContainerHeightConstraint])
         
@@ -556,7 +568,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         
         // Buttons
         if (isAlert() && buttons.count == 2) {
-            let buttonWidth = (innerContentWidth - buttonMargin) / 2
+            let buttonWidth = (innerButtonWidth - buttonMargin) / 2
             var buttonPositionX: CGFloat = 0.0
             
             for button in buttons {
@@ -598,7 +610,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
                 button.setTitleColor(style.buttonTitleColor, forState: .Normal)
                 button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Normal)
                 button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Highlighted)
-                button.frame = CGRect(x: 0, y: buttonAreaPositionY, width: innerContentWidth, height: buttonHeight)
+                button.frame = CGRect(x: 0, y: buttonAreaPositionY, width: self.isAlert() ? innerButtonWidth : innerContentWidth, height: buttonHeight)
                 buttonAreaPositionY += buttonHeight + buttonMargin
             }
             buttonAreaPositionY -= buttonMargin
@@ -623,7 +635,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
     }
     
     // Reload AlertView Height
-    func reloadAlertViewHeight() {
+    private func reloadAlertViewHeight() {
         
         var screenSize = UIScreen.mainScreen().bounds.size
         if ((UIDevice.currentDevice().systemVersion as NSString).floatValue < 8.0) {
@@ -656,7 +668,9 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
     
     // Button Tapped Action
     func buttonTapped(sender: UIButton) {
-        print("12345")
+        if let c = self.tappedButtonClosure {
+            c(tappedButtonIndex: sender.tag)
+        }
     }
     
     // Handle ContainerView tap gesture
@@ -670,7 +684,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
 extension SWAlertController: UIGestureRecognizerDelegate {
     
     // UIColor -> UIImage
-    func createImageFromUIColor(color: UIColor) -> UIImage {
+    private func createImageFromUIColor(color: UIColor) -> UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         UIGraphicsBeginImageContext(rect.size)
         let contextRef: CGContextRef = UIGraphicsGetCurrentContext()!
@@ -679,10 +693,6 @@ extension SWAlertController: UIGestureRecognizerDelegate {
         let img: UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return img
-    }
-    
-    @objc func handleAlertActionEnabledDidChangeNotification(aNotification: NSNotification) {
-        
     }
     
     // MARK: - UIViewControllerTransitioningDelegate Methods
