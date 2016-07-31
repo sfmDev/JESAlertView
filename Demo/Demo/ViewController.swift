@@ -33,7 +33,7 @@ class ViewController: UITableViewController {
                                                     otherButtons: [],
                                                     tapClosure: { (tappedButtonIndex) in
                                                         print("Tapped button index is \(tappedButtonIndex)")
-                })
+                                                    })
                 presentViewController(actionSheet, animated: true, completion: nil)
             case 1:
                 let actionSheet = SWAlertController(withTheme: theme,
@@ -49,7 +49,33 @@ class ViewController: UITableViewController {
                                                     otherButtons: [],
                                                     tapClosure: { (tappedButtonIndex) in
                                                         print("Tapped button index is \(tappedButtonIndex)")
-                })
+                                                    })
+                presentViewController(actionSheet, animated: true, completion: nil)
+            case 2:
+                let actionSheet = SWAlertController(withTheme: theme,
+                                                    preferredStyle: .Alert,
+                                                    title: "A customizable action sheet title",
+                                                    message: "A customizable action sheet message.",
+                                                    cancelButton: .Cancel("CANCEL",
+                                                        UIColor.whiteColor(),
+                                                        UIColor(r: 127, g: 140, b: 141)),
+                                                    destructiveButton: .Destructive("OK",
+                                                        UIColor.whiteColor(),
+                                                        UIColor(r: 38, g: 126, b: 217)),
+                                                    otherButtons: [
+                                                        .Default("Default 1",
+                                                            UIColor.whiteColor(),
+                                                            UIColor(r: 80, g: 227, b: 194)),
+                                                        .Default("Default 2",
+                                                            UIColor.whiteColor(),
+                                                            UIColor(r: 146, g: 212, b: 230)),
+                                                        .Default("Default 3",
+                                                            UIColor.whiteColor(),
+                                                            UIColor(r: 168, g: 236, b: 102))
+                                                    ],
+                                                    tapClosure: { (tappedButtonIndex) in
+                                                        print("Tapped button index is \(tappedButtonIndex)")
+                                                    })
                 presentViewController(actionSheet, animated: true, completion: nil)
             default: break
             }
@@ -84,8 +110,8 @@ class ViewController: UITableViewController {
                                                         UIColor(r: 231, g: 76, b: 70)),
                                                     otherButtons: [
                                                         .Default("Default 1",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 38, g: 126, b: 217)),
+                                                            UIColor.whiteColor(),
+                                                            UIColor(r: 38, g: 126, b: 217)),
                                                         .Default("Default 2",
                                                             UIColor.whiteColor(),
                                                             UIColor(r: 38, g: 126, b: 217))

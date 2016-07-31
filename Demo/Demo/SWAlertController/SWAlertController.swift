@@ -593,7 +593,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
                     button.setTitleColor(style.buttonTitleColor, forState: .Normal)
                     button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Normal)
                     button.setBackgroundImage(createImageFromUIColor(style.buttonBackgroundColor), forState: .Highlighted)
-                    button.frame = CGRectMake(0, buttonAreaPositionY, innerContentWidth, buttonHeight)
+                    button.frame = CGRect(x: 0, y: buttonAreaPositionY, width: self.isAlert() ? innerButtonWidth : innerContentWidth, height: buttonHeight)
                     buttonAreaPositionY += buttonHeight + buttonMargin
                 }
             }
