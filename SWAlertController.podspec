@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "SWAlertController"
-  s.version      = "1.0.1"
+  s.version      = "0.0.1-beta"
   s.summary      = "Simple Alert View using Swift 2.2, which can be used as a UIAlertController."
 
   # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  s.description  = <<- DESC
+  s.description  = <<-DESC
                       "Simple Alert View using Swift 2.2, which can be used as a UIAlertController. Supports iOS 8.0+."
                     DESC
 
@@ -91,7 +91,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "SWAlertController", "SWAlertController/**/*"
+  s.source_files  = "SWAlertController", "SWAlertController/**/*.{swift}"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
