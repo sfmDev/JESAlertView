@@ -22,7 +22,7 @@ class ViewController: UITableViewController {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                let alert = SWAlertController(withTheme: theme,
+                let alert = SWAlertController(withViewController: self, theme: theme,
                                                     preferredStyle: .Alert,
                                                     cancelButton: .Cancel("CANCEL",
                                                         UIColor.whiteColor(),
@@ -36,7 +36,7 @@ class ViewController: UITableViewController {
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
             case 1:
-                let alert = SWAlertController(withTheme: theme,
+                let alert = SWAlertController(withViewController: self, theme: theme,
                                                     preferredStyle: .Alert,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
@@ -52,7 +52,7 @@ class ViewController: UITableViewController {
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
             case 2:
-                let alert = SWAlertController(withTheme: theme,
+                let alert = SWAlertController(withViewController: self, theme: theme,
                                                     preferredStyle: .Alert,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
@@ -82,7 +82,7 @@ class ViewController: UITableViewController {
         } else {
             switch indexPath.row {
             case 0:
-                let actionSheet = SWAlertController(withTheme: theme,
+                let actionSheet = SWAlertController(withViewController: self, theme: theme,
                                                     preferredStyle: .ActionSheet,
                                                     title: "A customizable alert title",
                                                     message: "A customizable alert message.",
@@ -94,11 +94,13 @@ class ViewController: UITableViewController {
                                                         UIColor(r: 231, g: 76, b: 70)),
                                                     otherButtons: [],
                                                     tapClosure: { (tappedButtonIndex) in
-                                                        print("Tapped button index is \(tappedButtonIndex)")
+                                                        let vc = UIViewController()
+                                                        vc.view.backgroundColor = UIColor.redColor()
+                                                        self.navigationController?.pushViewController(vc, animated: true)
                                                     })
                 presentViewController(actionSheet, animated: true, completion: nil)
             case 1:
-                let actionSheet = SWAlertController(withTheme: theme,
+                let actionSheet = SWAlertController(withViewController: self, theme: theme,
                                                     preferredStyle: .ActionSheet,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",

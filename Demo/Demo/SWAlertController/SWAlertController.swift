@@ -254,11 +254,13 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         }
     }
     
+    private var target: AnyObject?
+    
     private var layoutFlg = false
     private var keyboardHeight: CGFloat = 0.0
     private var cancelButtonTag = 0
 
-    convenience init(withTheme theme: SWAlertControllerTheme, preferredStyle: SWActionSheetStyle, title: String? = nil, message: String? = nil, cancelButton: SWAlertActionStyle, destructiveButton: SWAlertActionStyle?, otherButtons: [SWAlertActionStyle], tapClosure: SWActionSheetTapColsure) {
+    convenience init(withViewController target: AnyObject, theme: SWAlertControllerTheme, preferredStyle: SWActionSheetStyle, title: String? = nil, message: String? = nil, cancelButton: SWAlertActionStyle, destructiveButton: SWAlertActionStyle?, otherButtons: [SWAlertActionStyle], tapClosure: SWActionSheetTapColsure) {
         self.init(nibName: nil, bundle: nil)
         
         self.title = title
@@ -270,7 +272,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         self.modalPresentationStyle = .Custom
         
         self.tappedButtonClosure = tapClosure
-        
+        self.target = target
         self.transitioningDelegate = self
         
         var screenSize = UIScreen.mainScreen().bounds.size
@@ -364,8 +366,8 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
             button.setTitle(buttonStyle.buttonTitle, forState: .Normal)
             button.layer.cornerRadius = self.theme.shape.cornerRadius
             switch buttonStyle {
-            case .Cancel(_, _, _): button.addTarget(self, action: .handleContainerViewTapGesture, forControlEvents: .TouchUpInside)
-            default: button.addTarget(self, action: .alertActionButtonTapped, forControlEvents: .TouchUpInside)
+            case .Cancel(_, _, _): button.addTarget(self.target, action: .handleContainerViewTapGesture, forControlEvents: .TouchUpInside)
+            default: button.addTarget(self.target, action: .alertActionButtonTapped, forControlEvents: .TouchUpInside)
             }
             button.tag = Handler.BaseTag + buttons.indexOf { return $0.buttonTitle == buttonStyle.buttonTitle }!
             buttonContainer.addSubview(button)
