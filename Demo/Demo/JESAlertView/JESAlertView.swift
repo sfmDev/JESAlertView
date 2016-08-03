@@ -59,7 +59,6 @@ enum JESAlertViewStyle {
 typealias JESAlertViewTapColsure = (tappedButtonIndex: Int) -> Void
 
 private struct Handler {
-    static let AlertActionEnabledDidChangeNotification = "AlertActionEnabledDidChangeNotification"
     static let BaseTag: Int = 0
     static let LayoutPriority: Float = 1000.0
 }
@@ -779,45 +778,45 @@ extension JESAlertView: UIGestureRecognizerDelegate {
     
 }
 
-class SW_Action: NSObject {
+class JESAction: NSObject {
     var actionDictionary: Dictionary<NSValue, () -> ()> = Dictionary()
-    static let sharedAction = SW_Action()
+    static let sharedAction = JESAction()
     override private init() { }
 }
 
 extension UIView {
-    class func sw_instantiateFromNib(withOwner owner: AnyObject) -> UIView? {
-        let views = NSBundle.mainBundle().loadNibNamed("\(self.sw_nameOfClassWithoutModulename)", owner: owner, options: nil)
+    class func jesInstantiateFromNib(withOwner owner: AnyObject) -> UIView? {
+        let views = NSBundle.mainBundle().loadNibNamed("\(self.jesNameOfClassWithoutModulename)", owner: owner, options: nil)
         return views.first as? UIView
     }
     
-    func sw_action(f: () -> ()) {
+    func jesAction(f: () -> ()) {
         let tap = UITapGestureRecognizer(target: self, action: .viewAction)
         self.addGestureRecognizer(tap)
-        SW_Action.sharedAction.actionDictionary[NSValue(nonretainedObject: self)] = f
+        JESAction.sharedAction.actionDictionary[NSValue(nonretainedObject: self)] = f
     }
     
     @objc private func tapGestureAction(tap: UITapGestureRecognizer) {
-        if let closure = SW_Action.sharedAction.actionDictionary[NSValue(nonretainedObject: tap.view)] {
+        if let closure = JESAction.sharedAction.actionDictionary[NSValue(nonretainedObject: tap.view)] {
             closure()
         } else { }
     }
 }
 
 extension NSObject {
-    public class var sw_nameOfClass: String{
+    public class var jesNameOfClass: String{
         return NSStringFromClass(self)
     }
     
-    public var sw_nameOfClass: String{
+    public var jesNameOfClass: String{
         return NSStringFromClass(self.dynamicType)
     }
     
-    public class var sw_nameOfClassWithoutModulename: String{
-        return self.sw_nameOfClass.componentsSeparatedByString(".").last!
+    public class var jesNameOfClassWithoutModulename: String{
+        return self.jesNameOfClass.componentsSeparatedByString(".").last!
     }
     
-    public var sw_nameOfClassWithoutModulename: String{
-        return self.sw_nameOfClass.componentsSeparatedByString(".").last!
+    public var jesNameOfClassWithoutModulename: String{
+        return self.jesNameOfClass.componentsSeparatedByString(".").last!
     }
 }

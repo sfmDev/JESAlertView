@@ -12,10 +12,11 @@
 import Foundation
 import UIKit
 
-typealias CornerRadius = CGFloat
+internal typealias CornerRadius = CGFloat
 
 // Alert view & Action Sheet Background view's shape
 enum JESAlertViewShape {
+    
     case Squared
     case Rounded(CornerRadius)
     
@@ -38,8 +39,8 @@ protocol JESAlertViewThemeType {
     var overlayColor: UIColor { get }
     
     var titleFont: UIFont { get }
-    var buttonFont: UIFont { get }
     var messageFont: UIFont { get }
+    var buttonFont: UIFont { get }
     
     var titleTextColor: UIColor { get }
     var messageTextColor: UIColor { get }
@@ -49,12 +50,16 @@ protocol JESAlertViewThemeType {
     var animationSpeed: CGFloat { get }
     var animationSpringDamping: CGFloat { get }
     var animationSpringVelocity: CGFloat { get }
-    
+    // Action sheet & Alert view's background color
     var backgroundColor: UIColor { get }
     var shape: JESAlertViewShape { get }
+    
+    // Default Theme
+    static func defaultTheme() -> JESAlertViewTheme
 }
 
 public struct JESAlertViewTheme: JESAlertViewThemeType {
+    
     let overlayColor: UIColor
     
     let titleFont: UIFont
@@ -67,26 +72,26 @@ public struct JESAlertViewTheme: JESAlertViewThemeType {
     let animationSpeed: CGFloat
     let animationSpringDamping: CGFloat
     let animationSpringVelocity: CGFloat
-    
+    // Action sheet & Alert view's background color
     let backgroundColor: UIColor
     
     let shape: JESAlertViewShape
     
+    // Default Theme
     static func defaultTheme() -> JESAlertViewTheme {
-        
-        let theme = JESAlertViewTheme(overlayColor: UIColor(r: 0, g: 0, b: 0, a: 0.5),
-                                       titleFont: UIFont.boldSystemFontOfSize(18),
-                                       buttonFont: UIFont.boldSystemFontOfSize(16),
-                                       messageFont: UIFont.systemFontOfSize(16),
-                                       titleTextColor: UIColor(r: 77, g: 77, b: 77),
-                                       messageTextColor: UIColor(r: 77, g: 77, b: 77),
-                                       animationSpeed: 0.55,
-                                       animationSpringDamping: 0.5,
-                                       animationSpringVelocity: 0.3,
-                                       backgroundColor: UIColor.customWhiteColor,
-                                       shape: .Rounded(2.0))
-        return theme
+        return JESAlertViewTheme(overlayColor: UIColor.overlayColor,
+                                 titleFont: UIFont.boldSystemFontOfSize(18),
+                                 buttonFont: UIFont.boldSystemFontOfSize(16),
+                                 messageFont: UIFont.systemFontOfSize(16),
+                                 titleTextColor: UIColor.textColor,
+                                 messageTextColor: UIColor.textColor,
+                                 animationSpeed: 0.55,
+                                 animationSpringDamping: 0.5,
+                                 animationSpringVelocity: 0.3,
+                                 backgroundColor: UIColor.backgroundColor,
+                                 shape: .Rounded(2.0))
     }
+    
 }
 
 extension UIColor {
@@ -94,9 +99,21 @@ extension UIColor {
         self.init(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
     }
     
-    class var customWhiteColor: UIColor {
+    class var backgroundColor: UIColor {
         get {
             return UIColor(r: 239, g: 240, b: 242)
+        }
+    }
+    
+    class var overlayColor: UIColor {
+        get {
+            return UIColor(r: 0, g: 0, b: 0, a: 0.5)
+        }
+    }
+    
+    class var textColor: UIColor {
+        get {
+            return UIColor(r: 77, g: 77, b: 77)
         }
     }
 }
