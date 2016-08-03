@@ -147,7 +147,7 @@ class JESAlertViewAnimation : NSObject, UIViewControllerAnimatedTransitioning {
     }
 }
 
-public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
+class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
  
     // Message
     var message: String?
@@ -322,7 +322,7 @@ public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControll
         super.init(nibName:nibNameOrNil, bundle:nibBundleOrNil)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -337,12 +337,12 @@ public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControll
         }
     }
     
-    override public func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         layoutSubView()
     }
     
-    override public func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
         if (!isAlert() && cancelButtonTag != Handler.BaseTag) {
@@ -763,16 +763,16 @@ extension JESAlertView: UIGestureRecognizerDelegate {
     
     // MARK: - UIViewControllerTransitioningDelegate Methods
     
-    private func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         layoutSubView()
         return JESAlertViewAnimation(isPresenting: true)
     }
     
-    private func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return JESAlertViewAnimation(isPresenting: false)
     }
     
-    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         return !(touch.view is UIButton)
     }
     
