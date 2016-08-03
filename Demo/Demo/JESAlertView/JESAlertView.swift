@@ -17,15 +17,15 @@ typealias ButtonBackgroundColor = UIColor
 
 enum JESAlertViewItemStyle {
     case Default(String, ButtonTitleColor, ButtonBackgroundColor)
-    case Cancel(String, ButtonTitleColor, ButtonBackgroundColor)
-    case Destructive(String, ButtonTitleColor, ButtonBackgroundColor)
+    case Cancel(String)
+    case Destructive(String)
     
     var buttonTitle: String {
         get {
             switch self {
             case .Default(let title, _, _): return title
-            case .Cancel(let title, _, _): return title
-            case .Destructive(let title, _, _): return title
+            case .Cancel(let title): return title
+            case .Destructive(let title): return title
             }
         }
     }
@@ -34,8 +34,7 @@ enum JESAlertViewItemStyle {
         get {
             switch self {
             case .Default(_, let titleColor, _): return titleColor
-            case .Cancel(_, let titleColor, _): return titleColor
-            case .Destructive(_, let titleColor, _): return titleColor
+            default: return UIColor.whiteColor()
             }
         }
     }
@@ -44,8 +43,8 @@ enum JESAlertViewItemStyle {
         get {
             switch self {
             case .Default(_, _, let backgroundColor): return backgroundColor
-            case .Cancel(_, _, let backgroundColor): return backgroundColor
-            case .Destructive(_, _, let backgroundColor): return backgroundColor
+            case .Cancel(_): return UIColor.cancelColor
+            case .Destructive(_): return UIColor.destructiveColor
             }
         }
     }
@@ -56,7 +55,7 @@ enum JESAlertViewStyle {
     case Alert
 }
 
-typealias JESAlertViewTapColsure = (tappedButtonIndex: Int) -> Void
+typealias JESAlertViewTapColsure = (tappedIndex: Int) -> Void
 
 private struct Handler {
     static let BaseTag: Int = 0
@@ -69,98 +68,20 @@ private extension Selector {
     static let viewAction = #selector(UIView.tapGestureAction(_:))
 }
 
-// MARK: JESAlertViewAnimation Class
-class JESAlertViewAnimation : NSObject, UIViewControllerAnimatedTransitioning {
-    
-    let isPresenting: Bool
-    
-    init(isPresenting: Bool) {
-        self.isPresenting = isPresenting
-    }
-    
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        if (isPresenting) {
-            return 0.45
-        } else {
-            return 0.25
-        }
-    }
-    
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        if (isPresenting) {
-            self.presentAnimateTransition(transitionContext)
-        } else {
-            self.dismissAnimateTransition(transitionContext)
-        }
-    }
-    
-    func presentAnimateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        
-        let alertController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! JESAlertView
-        let containerView = transitionContext.containerView()
-        
-        alertController.overlayView.alpha = 0.0
-        if (alertController.isAlert()) {
-            alertController.alertView.alpha = 0.0
-            alertController.alertView.center = alertController.view.center
-            alertController.alertView.transform = CGAffineTransformMakeScale(0.5, 0.5)
-        } else {
-            alertController.alertView.transform = CGAffineTransformMakeTranslation(0, alertController.alertView.frame.height)
-        }
-        containerView!.addSubview(alertController.view)
-        
-        UIView.animateWithDuration(0.25, animations: { 
-            alertController.overlayView.alpha = 1.0
-            if (alertController.isAlert()) {
-                alertController.alertView.alpha = 1.0
-                alertController.alertView.transform = CGAffineTransformMakeScale(1.05, 1.05)
-            } else {
-                let bounce = alertController.alertView.frame.height / 480 * 10.0 + 10.0
-                alertController.alertView.transform = CGAffineTransformMakeTranslation(0, -bounce)
-            }
-        }) { finished in
-            UIView.animateWithDuration(0.2, animations: { 
-                alertController.alertView.transform = CGAffineTransformIdentity
-            }, completion: { finished in
-                if (finished) {
-                    transitionContext.completeTransition(true)
-                }
-            })
-        }
-    }
-    
-    func dismissAnimateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        
-        let alertController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! JESAlertView
-        
-        UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: {
-            alertController.overlayView.alpha = 0.0
-            if (alertController.isAlert()) {
-                alertController.alertView.alpha = 0.0
-                alertController.alertView.transform = CGAffineTransformMakeScale(0.9, 0.9)
-            } else {
-                alertController.containerView.transform = CGAffineTransformMakeTranslation(0, alertController.alertView.frame.height)
-            }
-        }, completion: { finished in
-            transitionContext.completeTransition(true)
-        })
-    }
-}
-
 class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
  
     // Message
-    var message: String?
+    private var message: String?
     
-    var theme: JESAlertViewTheme = JESAlertViewTheme.defaultTheme()
+    private var theme: JESAlertViewTheme!
     
-    var tappedButtonClosure: JESAlertViewTapColsure?
+    private var tappedButtonClosure: JESAlertViewTapColsure?
     
     // AlertController Style
     private(set) var preferredStyle: JESAlertViewStyle = .ActionSheet
     
     // OverlayView
-    private var overlayView = UIView()
+    private(set) var overlayView = UIView()
     private var overlayColor: UIColor {
         get {
             return self.theme.overlayColor
@@ -168,13 +89,13 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
     }
     
     // ContainerView
-    private var containerView = UIView()
+    private(set) var containerView = UIView()
     private var containerViewBottomSpaceConstraint: NSLayoutConstraint!
     
     // AlertView
-    private var alertView = UIView()
+    private(set) var alertView = UIView()
     private var alertViewWidth: CGFloat = 270.0
-    private var alertViewPadding: CGFloat = 15.0
+    private var alertViewPadding: CGFloat = 8.0
     private var innerContentWidth: CGFloat = 270.0
     private var innerButtonWidth: CGFloat = 240.0
     private var actionSheetBounceHeight: CGFloat = 20.0
@@ -240,7 +161,7 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
     private var buttonContainer = UIView()
     private var buttonContainerHeightConstraint: NSLayoutConstraint!
     private let buttonHeight: CGFloat = 44.0
-    private var buttonMargin: CGFloat = 10.0
+    private var buttonMargin: CGFloat = 8.0
     
     // Buttons
     private var buttons = [UIButton]()
@@ -256,12 +177,14 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
     private var keyboardHeight: CGFloat = 0.0
     private var cancelButtonTag = 0
 
-    convenience init(theme: JESAlertViewTheme, preferredStyle: JESAlertViewStyle, title: String? = nil, message: String? = nil, cancelButton: JESAlertViewItemStyle, destructiveButton: JESAlertViewItemStyle?, otherButtons: [JESAlertViewItemStyle], tapClosure: JESAlertViewTapColsure) {
+    convenience init(withTheme theme: JESAlertViewTheme, preferredStyle: JESAlertViewStyle, title: String? = nil, message: String? = nil, cancelButton: JESAlertViewItemStyle, destructiveButton: JESAlertViewItemStyle?, otherButtons: [JESAlertViewItemStyle], tapClosure: JESAlertViewTapColsure) {
         self.init(nibName: nil, bundle: nil)
         
         self.title = title
         self.message = message
         self.preferredStyle = preferredStyle
+        
+        self.theme = theme
         
         self.providesPresentationContextTransitionStyle = true
         self.definesPresentationContext = true
@@ -270,19 +193,12 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
         self.tappedButtonClosure = tapClosure
         self.transitioningDelegate = self
         
-        var screenSize = UIScreen.mainScreen().bounds.size
-        if (UIDevice.currentDevice().systemVersion as NSString).floatValue < 8.0 {
-            if UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation) {
-                screenSize = CGSize(width: screenSize.height, height: screenSize.width)
-            }
-        }
+        let screenSize = UIScreen.mainScreen().bounds.size
         
         // variable for ActionSheet
         if !isAlert() {
             alertViewWidth = screenSize.width
-            alertViewPadding = 8.0
             innerContentWidth = (screenSize.height > screenSize.width) ? screenSize.width - alertViewPadding * 2 : screenSize.height - alertViewPadding * 2
-            buttonMargin = 8.0
         } else {
             alertView.layer.cornerRadius = self.theme.shape.cornerRadius
         }
@@ -295,13 +211,13 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
         // Checkout others button
         let hasCancelButton = otherButtons.contains {
             switch $0 {
-            case .Cancel(_, _, _): return true
+            case .Cancel(_): return true
             default: return false
             }
         }
         let hasDestructiveButton = otherButtons.contains {
             switch $0 {
-            case .Destructive(_, _, _): return true
+            case .Destructive(_): return true
             default: return false
             }
         }
@@ -323,14 +239,14 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    private func isAlert() -> Bool {
+    func isAlert() -> Bool {
         switch preferredStyle {
         case .Alert: return true
         default: return false
@@ -361,7 +277,7 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
             button.setTitle(buttonStyle.buttonTitle, forState: .Normal)
             button.layer.cornerRadius = self.theme.shape.cornerRadius
             switch buttonStyle {
-            case .Cancel(_, _, _): button.addTarget(self, action: .handleContainerViewTapGesture, forControlEvents: .TouchUpInside)
+            case .Cancel(_): button.addTarget(self, action: .handleContainerViewTapGesture, forControlEvents: .TouchUpInside)
             default: button.addTarget(self, action: .alertActionButtonTapped, forControlEvents: .TouchUpInside)
             }
             button.tag = Handler.BaseTag + buttons.indexOf { return $0.buttonTitle == buttonStyle.buttonTitle }!
@@ -452,7 +368,7 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
                 let idx = buttons.indexOf(button)
                 let style = buttonStyles[idx!]
                 switch style {
-                case .Cancel(_, _, _): cancelButtonTag = button.tag
+                case .Cancel(_): cancelButtonTag = button.tag
                 default:
                     button.titleLabel?.font = self.theme.buttonFont
                     button.setTitleColor(style.buttonTitleColor, forState: .Normal)
@@ -735,7 +651,7 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
     func buttonTapped(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
         if let c = self.tappedButtonClosure {
-            c(tappedButtonIndex: sender.tag)
+            c(tappedIndex: sender.tag)
         }
     }
     

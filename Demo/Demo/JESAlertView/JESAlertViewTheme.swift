@@ -116,4 +116,16 @@ extension UIColor {
             return UIColor(r: 77, g: 77, b: 77)
         }
     }
+    
+    class var destructiveColor: UIColor {
+        get {
+            return UIColor(r: 231, g: 76, b: 70)
+        }
+    }
+    
+    class var cancelColor: UIColor {
+        get {
+            return UIColor(r: 127, g: 140, b: 141)
+        }
+    }
 }

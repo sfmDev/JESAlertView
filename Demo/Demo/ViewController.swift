@@ -22,46 +22,34 @@ class ViewController: UITableViewController {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                let alert = JESAlertView(theme: theme,
+                let alert = JESAlertView(withTheme: theme,
                                                     preferredStyle: .Alert,
-                                                    cancelButton: .Cancel("CANCEL",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 127, g: 140, b: 141)),
-                                                    destructiveButton: .Destructive("OK",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 231, g: 76, b: 70)),
+                                                    cancelButton: .Cancel("CANCEL"),
+                                                    destructiveButton: .Destructive("OK"),
                                                     otherButtons: [],
-                                                    tapClosure: { (tappedButtonIndex) in
-                                                        print("Tapped button index is \(tappedButtonIndex)")
+                                                    tapClosure: { (index) in
+                                                        print("Tapped button index is \(index)")
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
             case 1:
-                let alert = JESAlertView(theme: theme,
+                let alert = JESAlertView(withTheme: theme,
                                                     preferredStyle: .Alert,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
-                                                    cancelButton: .Cancel("CANCEL",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 127, g: 140, b: 141)),
-                                                    destructiveButton: .Destructive("OK",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 38, g: 126, b: 217)),
+                                                    cancelButton: .Cancel("CANCEL"),
+                                                    destructiveButton: .Destructive("OK"),
                                                     otherButtons: [],
-                                                    tapClosure: { (tappedButtonIndex) in
-                                                        print("Tapped button index is \(tappedButtonIndex)")
+                                                    tapClosure: { (index) in
+                                                        print("Tapped button index is \(index)")
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
             case 2:
-                let alert = JESAlertView(theme: theme,
+                let alert = JESAlertView(withTheme: theme,
                                                     preferredStyle: .Alert,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
-                                                    cancelButton: .Cancel("CANCEL",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 127, g: 140, b: 141)),
-                                                    destructiveButton: .Destructive("OK",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 38, g: 126, b: 217)),
+                                                    cancelButton: .Cancel("CANCEL"),
+                                                    destructiveButton: .Destructive("OK"),
                                                     otherButtons: [
                                                         .Default("Default 1",
                                                             UIColor.whiteColor(),
@@ -73,11 +61,11 @@ class ViewController: UITableViewController {
                                                             UIColor.whiteColor(),
                                                             UIColor(r: 168, g: 236, b: 102))
                                                     ],
-                                                    tapClosure: { (tappedButtonIndex) in
+                                                    tapClosure: { (index) in
                                                         let vc = UIViewController()
                                                         vc.view.backgroundColor = UIColor.redColor()
                                                         self.navigationController?.pushViewController(vc, animated: true)
-                                                        print("Tapped button index is \(tappedButtonIndex)")
+                                                        print("Tapped button index is \(index)")
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
             default: break
@@ -85,35 +73,26 @@ class ViewController: UITableViewController {
         } else {
             switch indexPath.row {
             case 0:
-                let actionSheet = JESAlertView(theme: theme,
+                let actionSheet = JESAlertView(withTheme: theme,
                                                     preferredStyle: .ActionSheet,
                                                     title: "A customizable alert title",
                                                     message: "A customizable alert message.",
-                                                    cancelButton: .Cancel("CANCEL",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 127, g: 140, b: 141)),
-                                                    destructiveButton: .Destructive("OK",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 231, g: 76, b: 70)),
+                                                    cancelButton: .Cancel("CANCEL"),
+                                                    destructiveButton: .Destructive("OK"),
                                                     otherButtons: [],
-                                                    tapClosure: { (tappedButtonIndex) in
+                                                    tapClosure: { (index) in
                                                         let vc = UIViewController()
                                                         vc.view.backgroundColor = UIColor.redColor()
-//                                                        self.navigationController?.pushViewController(vc, animated: true)
-                                                        self.presentViewController(vc, animated: true, completion: nil)
+                                                        self.navigationController?.pushViewController(vc, animated: true)
                                                     })
                 presentViewController(actionSheet, animated: true, completion: nil)
             case 1:
-                let actionSheet = JESAlertView(theme: theme,
+                let actionSheet = JESAlertView(withTheme: theme,
                                                     preferredStyle: .ActionSheet,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
-                                                    cancelButton: .Cancel("CANCEL",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 127, g: 140, b: 141)),
-                                                    destructiveButton: .Destructive("OK",
-                                                        UIColor.whiteColor(),
-                                                        UIColor(r: 231, g: 76, b: 70)),
+                                                    cancelButton: .Cancel("CANCEL"),
+                                                    destructiveButton: .Destructive("OK"),
                                                     otherButtons: [
                                                         .Default("Default 1",
                                                             UIColor.whiteColor(),
@@ -122,8 +101,8 @@ class ViewController: UITableViewController {
                                                             UIColor.whiteColor(),
                                                             UIColor(r: 38, g: 126, b: 217))
                                                         ],
-                                                    tapClosure: { (tappedButtonIndex) in
-                                                        print("Tapped button index is \(tappedButtonIndex)")
+                                                    tapClosure: { (index) in
+                                                        print("Tapped button index is \(index)")
                                                     })
                 presentViewController(actionSheet, animated: true, completion: nil)
             default: break

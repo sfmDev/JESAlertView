@@ -12,6 +12,7 @@
 		613B8B901D49FFA5004F0096 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B8E1D49FFA5004F0096 /* Main.storyboard */; };
 		613B8B921D49FFA5004F0096 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B911D49FFA5004F0096 /* Assets.xcassets */; };
 		613B8B951D49FFA5004F0096 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 613B8B931D49FFA5004F0096 /* LaunchScreen.storyboard */; };
+		61502B851D523E6700302A16 /* JESAlertViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61502B841D523E6700302A16 /* JESAlertViewAnimation.swift */; };
 		61817A401D52269E0020B84F /* JESAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61817A3E1D52269E0020B84F /* JESAlertView.swift */; };
 		61817A411D52269E0020B84F /* JESAlertViewTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61817A3F1D52269E0020B84F /* JESAlertViewTheme.swift */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,7 @@
 		613B8B911D49FFA5004F0096 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		613B8B941D49FFA5004F0096 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		613B8B961D49FFA5004F0096 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		61502B841D523E6700302A16 /* JESAlertViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JESAlertViewAnimation.swift; sourceTree = "<group>"; };
 		61817A3E1D52269E0020B84F /* JESAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JESAlertView.swift; sourceTree = "<group>"; };
 		61817A3F1D52269E0020B84F /* JESAlertViewTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JESAlertViewTheme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,6 +76,7 @@
 			children = (
 				61817A3E1D52269E0020B84F /* JESAlertView.swift */,
 				61817A3F1D52269E0020B84F /* JESAlertViewTheme.swift */,
+				61502B841D523E6700302A16 /* JESAlertViewAnimation.swift */,
 			);
 			path = JESAlertView;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61502B851D523E6700302A16 /* JESAlertViewAnimation.swift in Sources */,
 				61817A401D52269E0020B84F /* JESAlertView.swift in Sources */,
 				613B8B8D1D49FFA5004F0096 /* ViewController.swift in Sources */,
 				61817A411D52269E0020B84F /* JESAlertViewTheme.swift in Sources */,
