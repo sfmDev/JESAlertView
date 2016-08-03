@@ -18,11 +18,11 @@ class ViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         // 🌟 Usage 👇
-        let theme = SWAlertControllerTheme.defaultTheme()
+        let theme = JESAlertViewTheme.defaultTheme()
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                let alert = SWAlertController(withViewController: self, theme: theme,
+                let alert = JESAlertView(theme: theme,
                                                     preferredStyle: .Alert,
                                                     cancelButton: .Cancel("CANCEL",
                                                         UIColor.whiteColor(),
@@ -36,7 +36,7 @@ class ViewController: UITableViewController {
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
             case 1:
-                let alert = SWAlertController(withViewController: self, theme: theme,
+                let alert = JESAlertView(theme: theme,
                                                     preferredStyle: .Alert,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
@@ -52,7 +52,7 @@ class ViewController: UITableViewController {
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
             case 2:
-                let alert = SWAlertController(withViewController: self, theme: theme,
+                let alert = JESAlertView(theme: theme,
                                                     preferredStyle: .Alert,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",
@@ -74,6 +74,9 @@ class ViewController: UITableViewController {
                                                             UIColor(r: 168, g: 236, b: 102))
                                                     ],
                                                     tapClosure: { (tappedButtonIndex) in
+                                                        let vc = UIViewController()
+                                                        vc.view.backgroundColor = UIColor.redColor()
+                                                        self.navigationController?.pushViewController(vc, animated: true)
                                                         print("Tapped button index is \(tappedButtonIndex)")
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
@@ -82,7 +85,7 @@ class ViewController: UITableViewController {
         } else {
             switch indexPath.row {
             case 0:
-                let actionSheet = SWAlertController(withViewController: self, theme: theme,
+                let actionSheet = JESAlertView(theme: theme,
                                                     preferredStyle: .ActionSheet,
                                                     title: "A customizable alert title",
                                                     message: "A customizable alert message.",
@@ -96,11 +99,12 @@ class ViewController: UITableViewController {
                                                     tapClosure: { (tappedButtonIndex) in
                                                         let vc = UIViewController()
                                                         vc.view.backgroundColor = UIColor.redColor()
-                                                        self.navigationController?.pushViewController(vc, animated: true)
+//                                                        self.navigationController?.pushViewController(vc, animated: true)
+                                                        self.presentViewController(vc, animated: true, completion: nil)
                                                     })
                 presentViewController(actionSheet, animated: true, completion: nil)
             case 1:
-                let actionSheet = SWAlertController(withViewController: self, theme: theme,
+                let actionSheet = JESAlertView(theme: theme,
                                                     preferredStyle: .ActionSheet,
                                                     title: "A customizable action sheet title",
                                                     message: "A customizable action sheet message.",

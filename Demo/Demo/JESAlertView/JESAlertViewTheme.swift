@@ -1,5 +1,5 @@
 //
-//  SWActionSheetTheme.swift
+//  JESAlertViewTheme.swift
 //  Demo
 //
 //  Created by JerryShi on 7/28/16.
@@ -14,7 +14,8 @@ import UIKit
 
 typealias CornerRadius = CGFloat
 
-enum SWActionSheetShape {
+// Alert view & Action Sheet Background view's shape
+enum JESAlertViewShape {
     case Squared
     case Rounded(CornerRadius)
     
@@ -31,9 +32,9 @@ enum SWActionSheetShape {
 /**
  *  @author Shi Wei, 16-07-28 23:07:29
  *
- *  Implement SWActionSheetThemeType to define custom theme
+ *  Implement JESAlertViewThemeType to define custom theme
  */
-protocol SWAlertControllerThemeType {
+protocol JESAlertViewThemeType {
     var overlayColor: UIColor { get }
     
     var titleFont: UIFont { get }
@@ -49,13 +50,11 @@ protocol SWAlertControllerThemeType {
     var animationSpringDamping: CGFloat { get }
     var animationSpringVelocity: CGFloat { get }
     
-    var borderColor: UIColor { get }
     var backgroundColor: UIColor { get }
-    
-    var shape: SWActionSheetShape { get }
+    var shape: JESAlertViewShape { get }
 }
 
-public struct SWAlertControllerTheme: SWAlertControllerThemeType {
+public struct JESAlertViewTheme: JESAlertViewThemeType {
     let overlayColor: UIColor
     
     let titleFont: UIFont
@@ -69,14 +68,13 @@ public struct SWAlertControllerTheme: SWAlertControllerThemeType {
     let animationSpringDamping: CGFloat
     let animationSpringVelocity: CGFloat
     
-    let borderColor: UIColor
     let backgroundColor: UIColor
     
-    let shape: SWActionSheetShape
+    let shape: JESAlertViewShape
     
-    static func defaultTheme() -> SWAlertControllerTheme {
+    static func defaultTheme() -> JESAlertViewTheme {
         
-        let theme = SWAlertControllerTheme(overlayColor: UIColor(r: 0, g: 0, b: 0, a: 0.5),
+        let theme = JESAlertViewTheme(overlayColor: UIColor(r: 0, g: 0, b: 0, a: 0.5),
                                        titleFont: UIFont.boldSystemFontOfSize(18),
                                        buttonFont: UIFont.boldSystemFontOfSize(16),
                                        messageFont: UIFont.systemFontOfSize(16),
@@ -85,7 +83,6 @@ public struct SWAlertControllerTheme: SWAlertControllerThemeType {
                                        animationSpeed: 0.55,
                                        animationSpringDamping: 0.5,
                                        animationSpringVelocity: 0.3,
-                                       borderColor: UIColor.whiteColor().colorWithAlphaComponent(0.25),
                                        backgroundColor: UIColor.customWhiteColor,
                                        shape: .Rounded(2.0))
         return theme

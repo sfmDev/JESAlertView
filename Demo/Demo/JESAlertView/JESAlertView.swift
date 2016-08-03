@@ -1,5 +1,5 @@
 //
-//  SWAlertController.swift
+//  JESAlertView.swift
 //  Demo
 //
 //  Created by JerryShi on 7/28/16.
@@ -15,7 +15,7 @@ import UIKit
 typealias ButtonTitleColor = UIColor
 typealias ButtonBackgroundColor = UIColor
 
-enum SWAlertActionStyle {
+enum JESAlertViewItemStyle {
     case Default(String, ButtonTitleColor, ButtonBackgroundColor)
     case Cancel(String, ButtonTitleColor, ButtonBackgroundColor)
     case Destructive(String, ButtonTitleColor, ButtonBackgroundColor)
@@ -51,12 +51,12 @@ enum SWAlertActionStyle {
     }
 }
 
-enum SWActionSheetStyle {
+enum JESAlertViewStyle {
     case ActionSheet
     case Alert
 }
 
-typealias SWActionSheetTapColsure = (tappedButtonIndex: Int) -> Void
+typealias JESAlertViewTapColsure = (tappedButtonIndex: Int) -> Void
 
 private struct Handler {
     static let AlertActionEnabledDidChangeNotification = "AlertActionEnabledDidChangeNotification"
@@ -65,14 +65,13 @@ private struct Handler {
 }
 
 private extension Selector {
-    static let alertActionButtonTapped = #selector(SWAlertController.buttonTapped(_:))
-    static let handleContainerViewTapGesture = #selector(SWAlertController.handleContainerViewTapGesture(_:))
+    static let alertActionButtonTapped = #selector(JESAlertView.buttonTapped(_:))
+    static let handleContainerViewTapGesture = #selector(JESAlertView.handleContainerViewTapGesture(_:))
     static let viewAction = #selector(UIView.tapGestureAction(_:))
 }
 
-// MARK: DOAlertAnimation Class
-
-class SWAlertAnimation : NSObject, UIViewControllerAnimatedTransitioning {
+// MARK: JESAlertViewAnimation Class
+class JESAlertViewAnimation : NSObject, UIViewControllerAnimatedTransitioning {
     
     let isPresenting: Bool
     
@@ -98,7 +97,7 @@ class SWAlertAnimation : NSObject, UIViewControllerAnimatedTransitioning {
     
     func presentAnimateTransition(transitionContext: UIViewControllerContextTransitioning) {
         
-        let alertController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SWAlertController
+        let alertController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! JESAlertView
         let containerView = transitionContext.containerView()
         
         alertController.overlayView.alpha = 0.0
@@ -133,7 +132,7 @@ class SWAlertAnimation : NSObject, UIViewControllerAnimatedTransitioning {
     
     func dismissAnimateTransition(transitionContext: UIViewControllerContextTransitioning) {
         
-        let alertController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! SWAlertController
+        let alertController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! JESAlertView
         
         UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: {
             alertController.overlayView.alpha = 0.0
@@ -149,17 +148,17 @@ class SWAlertAnimation : NSObject, UIViewControllerAnimatedTransitioning {
     }
 }
 
-class SWAlertController: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
+public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
  
     // Message
     var message: String?
     
-    var theme: SWAlertControllerTheme = SWAlertControllerTheme.defaultTheme()
+    var theme: JESAlertViewTheme = JESAlertViewTheme.defaultTheme()
     
-    var tappedButtonClosure: SWActionSheetTapColsure?
+    var tappedButtonClosure: JESAlertViewTapColsure?
     
     // AlertController Style
-    private(set) var preferredStyle: SWActionSheetStyle = .ActionSheet
+    private(set) var preferredStyle: JESAlertViewStyle = .ActionSheet
     
     // OverlayView
     private var overlayView = UIView()
@@ -246,7 +245,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
     
     // Buttons
     private var buttons = [UIButton]()
-    private var buttonStyles = [SWAlertActionStyle]()
+    private var buttonStyles = [JESAlertViewItemStyle]()
     
     private var buttonCornerRadius: CGFloat {
         get {
@@ -254,13 +253,11 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         }
     }
     
-    private var target: AnyObject?
-    
     private var layoutFlg = false
     private var keyboardHeight: CGFloat = 0.0
     private var cancelButtonTag = 0
 
-    convenience init(withViewController target: AnyObject, theme: SWAlertControllerTheme, preferredStyle: SWActionSheetStyle, title: String? = nil, message: String? = nil, cancelButton: SWAlertActionStyle, destructiveButton: SWAlertActionStyle?, otherButtons: [SWAlertActionStyle], tapClosure: SWActionSheetTapColsure) {
+    convenience init(theme: JESAlertViewTheme, preferredStyle: JESAlertViewStyle, title: String? = nil, message: String? = nil, cancelButton: JESAlertViewItemStyle, destructiveButton: JESAlertViewItemStyle?, otherButtons: [JESAlertViewItemStyle], tapClosure: JESAlertViewTapColsure) {
         self.init(nibName: nil, bundle: nil)
         
         self.title = title
@@ -272,7 +269,6 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         self.modalPresentationStyle = .Custom
         
         self.tappedButtonClosure = tapClosure
-        self.target = target
         self.transitioningDelegate = self
         
         var screenSize = UIScreen.mainScreen().bounds.size
@@ -327,7 +323,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         super.init(nibName:nibNameOrNil, bundle:nibBundleOrNil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -342,12 +338,12 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         layoutSubView()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
         if (!isAlert() && cancelButtonTag != Handler.BaseTag) {
@@ -358,7 +354,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
     }
     
     // MARK: - Add buttons method
-    private func addButtons(withButtons buttons: [SWAlertActionStyle]) -> [UIButton] {
+    private func addButtons(withButtons buttons: [JESAlertViewItemStyle]) -> [UIButton] {
         // Add Button
         return buttons.map { (buttonStyle) -> UIButton in
             let button = UIButton(type: .Custom)
@@ -366,8 +362,8 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
             button.setTitle(buttonStyle.buttonTitle, forState: .Normal)
             button.layer.cornerRadius = self.theme.shape.cornerRadius
             switch buttonStyle {
-            case .Cancel(_, _, _): button.addTarget(self.target, action: .handleContainerViewTapGesture, forControlEvents: .TouchUpInside)
-            default: button.addTarget(self.target, action: .alertActionButtonTapped, forControlEvents: .TouchUpInside)
+            case .Cancel(_, _, _): button.addTarget(self, action: .handleContainerViewTapGesture, forControlEvents: .TouchUpInside)
+            default: button.addTarget(self, action: .alertActionButtonTapped, forControlEvents: .TouchUpInside)
             }
             button.tag = Handler.BaseTag + buttons.indexOf { return $0.buttonTitle == buttonStyle.buttonTitle }!
             buttonContainer.addSubview(button)
@@ -738,6 +734,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
     
     // Button Tapped Action
     func buttonTapped(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
         if let c = self.tappedButtonClosure {
             c(tappedButtonIndex: sender.tag)
         }
@@ -751,7 +748,7 @@ class SWAlertController: UIViewController, UITextFieldDelegate, UIViewController
 
 }
 
-extension SWAlertController: UIGestureRecognizerDelegate {
+extension JESAlertView: UIGestureRecognizerDelegate {
     
     // UIColor -> UIImage
     private func createImage(withColor color: UIColor) -> UIImage {
@@ -767,16 +764,16 @@ extension SWAlertController: UIGestureRecognizerDelegate {
     
     // MARK: - UIViewControllerTransitioningDelegate Methods
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    private func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         layoutSubView()
-        return SWAlertAnimation(isPresenting: true)
+        return JESAlertViewAnimation(isPresenting: true)
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return SWAlertAnimation(isPresenting: false)
+    private func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return JESAlertViewAnimation(isPresenting: false)
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         return !(touch.view is UIButton)
     }
     
