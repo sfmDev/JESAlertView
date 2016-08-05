@@ -1,5 +1,5 @@
 #
-#  Be sure to run `pod spec lint SWAlertController.podspec' to ensure this is a
+#  Be sure to run `pod spec lint JESAlertView.podspec' to ensure this is a
 #  valid spec and to remove all comments including this before submitting the spec.
 #
 #  To learn more about Podspec attributes see http://docs.cocoapods.org/specification.html
@@ -15,9 +15,9 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "SWAlertController"
+  s.name         = "JESAlertView"
   s.version      = "0.0.1-beta"
-  s.summary      = "Simple Alert View using Swift 2.2, which can be used as a UIAlertController."
+  s.summary      = "A simple alert view and action sheet for iOS"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,10 +25,10 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-                      "Simple Alert View using Swift 2.2, which can be used as a UIAlertController. Supports iOS 8.0+."
-                    DESC
+                    A simple alert view and action sheet for iOS.
+                   DESC
 
-  s.homepage     = "https://github.com/ShiWeiCN/SWActionSheet"
+  s.homepage     = "https://github.com/ShiWeiCN/JESAlertView"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -39,8 +39,8 @@ Pod::Spec.new do |s|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  s.license      = "MIT"
-  # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
+  # s.license      = "MIT"
+  s.license      = { :type => "MIT", :file => "LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -53,7 +53,7 @@ Pod::Spec.new do |s|
   #  profile URL.
   #
 
-  s.author             = { "ShiWeiCN" => "stayfocusjs@gmail.com" }
+  s.author             = { "Jerry Shi" => "stayfocusjs@gmail.com" }
   # Or just: s.author    = "ShiWeiCN"
   # s.authors            = { "ShiWeiCN" => "bluesw9664@163.com" }
   # s.social_media_url   = "http://twitter.com/ShiWeiCN"
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/ShiWeiCN/SWActionSheet.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/ShiWeiCN/JESAlertView.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -91,7 +91,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "SWAlertController", "SWAlertController/**/*.{swift}"
+  s.source_files  = "JESAlertView/*.swift"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
@@ -117,8 +117,8 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
 
-  # s.framework  = "UIKit"
-  s.frameworks = "UIKit", "Foundation"
+  s.framework  = "UIKit"
+  # s.frameworks = "UIKit", "Foundation"
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
@@ -130,7 +130,7 @@ Pod::Spec.new do |s|
   #  where they will only apply to your library. If you depend on other Podspecs
   #  you can include multiple dependencies to ensure it works.
 
-  # s.requires_arc = true
+  s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # s.dependency "JSONKit", "~> 1.4"
