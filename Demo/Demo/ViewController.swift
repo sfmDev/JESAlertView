@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JESAlertView
 
 class ViewController: UITableViewController {
 
@@ -18,7 +19,7 @@ class ViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         // 🌟 Usage 👇
-        let theme = JESAlertViewTheme.defaultTheme()
+        let theme = JESAlertViewTheme.
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:

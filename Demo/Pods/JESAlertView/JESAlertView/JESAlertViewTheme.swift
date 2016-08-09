@@ -36,7 +36,6 @@ enum JESAlertViewShape {
  *  Implement JESAlertViewThemeType to define custom theme
  */
 protocol JESAlertViewThemeType {
-    // Overlay Color
     var overlayColor: UIColor { get }
     
     var titleFont: UIFont { get }

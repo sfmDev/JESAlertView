@@ -1,0 +1,6 @@
+framework module JESAlertView {
+  umbrella header "JESAlertView-umbrella.h"
+
+  export *
+  module * { export * }
+}

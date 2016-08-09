@@ -12,8 +12,8 @@
 import Foundation
 import UIKit
 
-typealias ButtonTitleColor = UIColor
-typealias ButtonBackgroundColor = UIColor
+internal typealias ButtonTitleColor = UIColor
+internal typealias ButtonBackgroundColor = UIColor
 
 enum JESAlertViewItemStyle {
     case Default(String, ButtonTitleColor, ButtonBackgroundColor)
@@ -55,7 +55,7 @@ enum JESAlertViewStyle {
     case Alert
 }
 
-typealias JESAlertViewTapColsure = (tappedIndex: Int) -> Void
+internal typealias JESAlertViewTapColsure = (tappedIndex: Int) -> Void
 
 private struct Handler {
     static let BaseTag: Int = 0
