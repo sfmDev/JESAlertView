@@ -69,7 +69,7 @@ private extension Selector {
 }
 
 public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
- 
+    
     // Message
     private var message: String?
     
@@ -177,7 +177,7 @@ public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControll
     private var layoutFlg = false
     private var keyboardHeight: CGFloat = 0.0
     private var cancelButtonTag = 0
-
+    
     /**
      JESAlertView init Method
      
@@ -468,7 +468,7 @@ public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControll
         customizeView.addConstraints([
             customizeViewWidthConstraint,
             customizeViewHeightConstraint
-        ])
+            ])
     }
     
     /**
@@ -679,7 +679,7 @@ public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControll
         // cancel action
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
 }
 
 extension JESAlertView: UIGestureRecognizerDelegate {
