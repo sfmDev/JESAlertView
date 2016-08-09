@@ -36,6 +36,7 @@ enum JESAlertViewShape {
  *  Implement JESAlertViewThemeType to define custom theme
  */
 protocol JESAlertViewThemeType {
+    // Overlay Color
     var overlayColor: UIColor { get }
     
     var titleFont: UIFont { get }
@@ -45,11 +46,6 @@ protocol JESAlertViewThemeType {
     var titleTextColor: UIColor { get }
     var messageTextColor: UIColor { get }
     
-    // MARK: - Unused
-    /// Animation parameters will be used at next version
-    var animationSpeed: CGFloat { get }
-    var animationSpringDamping: CGFloat { get }
-    var animationSpringVelocity: CGFloat { get }
     // Action sheet & Alert view's background color
     var backgroundColor: UIColor { get }
     var shape: JESAlertViewShape { get }
@@ -69,25 +65,19 @@ public struct JESAlertViewTheme: JESAlertViewThemeType {
     let titleTextColor: UIColor
     let messageTextColor: UIColor
     
-    let animationSpeed: CGFloat
-    let animationSpringDamping: CGFloat
-    let animationSpringVelocity: CGFloat
     // Action sheet & Alert view's background color
     let backgroundColor: UIColor
     
     let shape: JESAlertViewShape
     
     // Default Theme
-    static func defaultTheme() -> JESAlertViewTheme {
+    public static func defaultTheme() -> JESAlertViewTheme {
         return JESAlertViewTheme(overlayColor: UIColor.overlayColor,
                                  titleFont: UIFont.boldSystemFontOfSize(18),
                                  buttonFont: UIFont.boldSystemFontOfSize(16),
                                  messageFont: UIFont.systemFontOfSize(16),
                                  titleTextColor: UIColor.textColor,
                                  messageTextColor: UIColor.textColor,
-                                 animationSpeed: 0.55,
-                                 animationSpringDamping: 0.5,
-                                 animationSpringVelocity: 0.3,
                                  backgroundColor: UIColor.backgroundColor,
                                  shape: .Rounded(2.0))
     }

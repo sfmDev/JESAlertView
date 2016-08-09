@@ -12,10 +12,10 @@
 import Foundation
 import UIKit
 
-typealias ButtonTitleColor = UIColor
-typealias ButtonBackgroundColor = UIColor
+public typealias ButtonTitleColor = UIColor
+public typealias ButtonBackgroundColor = UIColor
 
-enum JESAlertViewItemStyle {
+public enum JESAlertViewItemStyle {
     case Default(String, ButtonTitleColor, ButtonBackgroundColor)
     case Cancel(String)
     case Destructive(String)
@@ -50,12 +50,12 @@ enum JESAlertViewItemStyle {
     }
 }
 
-enum JESAlertViewStyle {
+public enum JESAlertViewStyle {
     case ActionSheet
     case Alert
 }
 
-typealias JESAlertViewTapColsure = (tappedIndex: Int) -> Void
+public typealias JESAlertViewTapColsure = (index: Int) -> Void
 
 private struct Handler {
     static let BaseTag: Int = 0
@@ -68,7 +68,7 @@ private extension Selector {
     static let viewAction = #selector(UIView.tapGestureAction(_:))
 }
 
-class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
+public class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate {
  
     // Message
     private var message: String?
@@ -196,7 +196,7 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
      JESAlertViewItemStyle => .Default(String, ButtonTitleColor, ButtonBackgroundColor) / .Cancel(String) / .Destructive(String)
      
      */
-    convenience init(withTheme theme: JESAlertViewTheme, preferredStyle: JESAlertViewStyle, title: String? = nil, message: String? = nil, cancelButton: JESAlertViewItemStyle, destructiveButton: JESAlertViewItemStyle?, otherButtons: [JESAlertViewItemStyle], tapClosure: JESAlertViewTapColsure) {
+    public convenience init(withTheme theme: JESAlertViewTheme, preferredStyle: JESAlertViewStyle, title: String? = nil, message: String? = nil, cancelButton: JESAlertViewItemStyle, destructiveButton: JESAlertViewItemStyle?, otherButtons: [JESAlertViewItemStyle], tapClosure: JESAlertViewTapColsure) {
         self.init(nibName: nil, bundle: nil)
         
         self.title = title
@@ -257,7 +257,7 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
         super.init(nibName:nibNameOrNil, bundle:nibBundleOrNil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -272,12 +272,12 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         layoutSubView()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
         if (!isAlert() && cancelButtonTag != Handler.BaseTag) {
@@ -670,7 +670,7 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
     func buttonTapped(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
         if let c = self.tappedButtonClosure {
-            c(tappedIndex: sender.tag)
+            c(index: sender.tag)
         }
     }
     
@@ -698,16 +698,16 @@ extension JESAlertView: UIGestureRecognizerDelegate {
     
     // MARK: - UIViewControllerTransitioningDelegate Methods
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         layoutSubView()
         return JESAlertViewAnimation(isPresenting: true)
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return JESAlertViewAnimation(isPresenting: false)
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         return !(touch.view is UIButton)
     }
     

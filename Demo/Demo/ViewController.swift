@@ -19,7 +19,7 @@ class ViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         // 🌟 Usage 👇
-        let theme = JESAlertViewTheme.
+        let theme = JESAlertViewTheme.defaultTheme()
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
@@ -28,7 +28,7 @@ class ViewController: UITableViewController {
                                                     cancelButton: .Cancel("CANCEL"),
                                                     destructiveButton: .Destructive("OK"),
                                                     otherButtons: [],
-                                                    tapClosure: { (index) in
+                                                    tapClosure: { (index: Int) in
                                                         print("Tapped button index is \(index)")
                                                     })
                 presentViewController(alert, animated: true, completion: nil)
@@ -54,13 +54,13 @@ class ViewController: UITableViewController {
                                                     otherButtons: [
                                                         .Default("Default 1",
                                                             UIColor.whiteColor(),
-                                                            UIColor(r: 80, g: 227, b: 194)),
+                                                            UIColor(red: 80 / 255.0, green: 227 / 255.0, blue: 194 / 255.0, alpha: 1.0)),
                                                         .Default("Default 2",
                                                             UIColor.whiteColor(),
-                                                            UIColor(r: 146, g: 212, b: 230)),
+                                                            UIColor(red: 80 / 255.0, green: 227 / 255.0, blue: 194 / 255.0, alpha: 1.0)),
                                                         .Default("Default 3",
                                                             UIColor.whiteColor(),
-                                                            UIColor(r: 168, g: 236, b: 102))
+                                                            UIColor(red: 80 / 255.0, green: 227 / 255.0, blue: 194 / 255.0, alpha: 1.0))
                                                     ],
                                                     tapClosure: { (index) in
                                                         let vc = UIViewController()
@@ -97,10 +97,10 @@ class ViewController: UITableViewController {
                                                     otherButtons: [
                                                         .Default("Default 1",
                                                             UIColor.whiteColor(),
-                                                            UIColor(r: 38, g: 126, b: 217)),
+                                                            UIColor(red: 80 / 255.0, green: 227 / 255.0, blue: 194 / 255.0, alpha: 1.0)),
                                                         .Default("Default 2",
                                                             UIColor.whiteColor(),
-                                                            UIColor(r: 38, g: 126, b: 217))
+                                                            UIColor(red: 80 / 255.0, green: 227 / 255.0, blue: 194 / 255.0, alpha: 1.0))
                                                         ],
                                                     tapClosure: { (index) in
                                                         print("Tapped button index is \(index)")

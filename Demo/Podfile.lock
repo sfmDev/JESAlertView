@@ -1,11 +1,11 @@
 PODS:
-  - JESAlertView (0.0.1)
+  - JESAlertView (0.0.2)
 
 DEPENDENCIES:
   - JESAlertView
 
 SPEC CHECKSUMS:
-  JESAlertView: cdd062a63c5dc6f5bc3510f55b978e948b7c1e0f
+  JESAlertView: 4336e625368e56aaee84a691c73e2b43a1ccc918
 
 PODFILE CHECKSUM: cb838323ac8313559d9c6d6e78f98fd5c1a29fe9
 

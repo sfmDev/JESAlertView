@@ -54,7 +54,7 @@ protocol JESAlertViewThemeType {
     static func defaultTheme() -> JESAlertViewTheme
 }
 
-struct JESAlertViewTheme: JESAlertViewThemeType {
+public struct JESAlertViewTheme: JESAlertViewThemeType {
     
     let overlayColor: UIColor
     
@@ -71,7 +71,7 @@ struct JESAlertViewTheme: JESAlertViewThemeType {
     let shape: JESAlertViewShape
     
     // Default Theme
-    static func defaultTheme() -> JESAlertViewTheme {
+    public static func defaultTheme() -> JESAlertViewTheme {
         return JESAlertViewTheme(overlayColor: UIColor.overlayColor,
                                  titleFont: UIFont.boldSystemFontOfSize(18),
                                  buttonFont: UIFont.boldSystemFontOfSize(16),
