@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "JESAlertView"
-  s.version      = "0.0.1-beta"
+  s.version      = "0.0.1"
   s.summary      = "A simple alert view and action sheet for iOS"
 
   # This description is used to generate tags and improve search results.

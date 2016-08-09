@@ -12,6 +12,8 @@
 
 An alert view written by swift 2.2. Support both action sheet and alert view style.
 
+![GIF](/Users/JerryShi/GitHub/JESAlertView/demo.gif)
+
 ## Easy to use
 
 Provide a default theme of alert view. So you can use this default theme or create a theme you like.
