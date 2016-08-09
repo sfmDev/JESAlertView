@@ -16,7 +16,7 @@ An alert view written by swift 2.2. Support both action sheet and alert view sty
 
 ## Screenshots
 
-![GIF](http://7xie11.com1.z0.glb.clouddn.com/demo.gif)
+![GIF](https://github.com/ShiWeiCN/JESAlertView/raw/master/Source/demo.gif)
 
 ## Easy to use
 
