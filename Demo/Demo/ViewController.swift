@@ -34,8 +34,8 @@ class ViewController: UITableViewController {
             case 1:
                 let alert = JESAlertView(withTheme: theme,
                                                     preferredStyle: .Alert,
-                                                    title: "A customizable action sheet title",
-                                                    message: "A customizable action sheet message.",
+                                                    title: "OKAY/CNACEL",
+                                                    message: "A customizable alert view message.",
                                                     cancelButton: .Cancel("CANCEL"),
                                                     destructiveButton: .Destructive("OK"),
                                                     otherButtons: [],
@@ -46,8 +46,8 @@ class ViewController: UITableViewController {
             case 2:
                 let alert = JESAlertView(withTheme: theme,
                                                     preferredStyle: .Alert,
-                                                    title: "A customizable action sheet title",
-                                                    message: "A customizable action sheet message.",
+                                                    title: "MORE",
+                                                    message: "A customizable alert view message.",
                                                     cancelButton: .Cancel("CANCEL"),
                                                     destructiveButton: .Destructive("OK"),
                                                     otherButtons: [
@@ -75,8 +75,8 @@ class ViewController: UITableViewController {
             case 0:
                 let actionSheet = JESAlertView(withTheme: theme,
                                                     preferredStyle: .ActionSheet,
-                                                    title: "A customizable alert title",
-                                                    message: "A customizable alert message.",
+                                                    title: "OKAY/CNACEL",
+                                                    message: "A customizable action sheet message.",
                                                     cancelButton: .Cancel("CANCEL"),
                                                     destructiveButton: .Destructive("OK"),
                                                     otherButtons: [],
@@ -89,7 +89,7 @@ class ViewController: UITableViewController {
             case 1:
                 let actionSheet = JESAlertView(withTheme: theme,
                                                     preferredStyle: .ActionSheet,
-                                                    title: "A customizable action sheet title",
+                                                    title: "MORE",
                                                     message: "A customizable action sheet message.",
                                                     cancelButton: .Cancel("CANCEL"),
                                                     destructiveButton: .Destructive("OK"),

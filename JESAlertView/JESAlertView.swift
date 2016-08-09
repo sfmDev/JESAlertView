@@ -97,6 +97,7 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
     private var alertViewWidth: CGFloat = 270.0
     private var alertViewPadding: CGFloat = 8.0
     private var innerContentWidth: CGFloat = 270.0
+    private var innerContentWidthPadding: CGFloat = 15.0
     private var innerButtonWidth: CGFloat = 240.0
     private var actionSheetBounceHeight: CGFloat = 20.0
     
@@ -177,6 +178,24 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
     private var keyboardHeight: CGFloat = 0.0
     private var cancelButtonTag = 0
 
+    /**
+     JESAlertView init Method
+     
+     - author: Shi Wei
+     - date: 16-08-09 18:08:21
+     
+     - parameter theme:             theme
+     - parameter preferredStyle:    .ActionSheet / /Alert
+     - parameter title:             Title
+     - parameter message:           SubTitle / Message
+     - parameter cancelButton:      Cancel Button (JESAlertViewItemStyle)
+     - parameter destructiveButton: Destructive Button (JESAlertViewItemStyle)
+     - parameter otherButtons:      Others Button (Array[JESAlertViewItemStyle])
+     - parameter tapClosure:        Tapped Closure
+     
+     JESAlertViewItemStyle => .Default(String, ButtonTitleColor, ButtonBackgroundColor) / .Cancel(String) / .Destructive(String)
+     
+     */
     convenience init(withTheme theme: JESAlertViewTheme, preferredStyle: JESAlertViewStyle, title: String? = nil, message: String? = nil, cancelButton: JESAlertViewItemStyle, destructiveButton: JESAlertViewItemStyle?, otherButtons: [JESAlertViewItemStyle], tapClosure: JESAlertViewTapColsure) {
         self.init(nibName: nil, bundle: nil)
         
@@ -308,28 +327,28 @@ class JESAlertView: UIViewController, UITextFieldDelegate, UIViewControllerTrans
         
         // TitleLabel
         if (hasTitle) {
-            titleLabel.frame.size    = CGSize(width: innerContentWidth, height: 0.0)
+            titleLabel.frame.size    = CGSize(width: innerContentWidth - 2 * innerContentWidthPadding, height: 0.0)
             titleLabel.numberOfLines = 0
             titleLabel.textAlignment = .Center
             titleLabel.font          = titleFont
             titleLabel.textColor     = titleTextColor
             titleLabel.text          = title
             titleLabel.sizeToFit()
-            titleLabel.frame         = CGRect(x: 0, y: textAreaPositionY, width: innerContentWidth, height: titleLabel.frame.height)
+            titleLabel.frame         = CGRect(x: innerContentWidthPadding, y: textAreaPositionY, width: innerContentWidth - 2 * innerContentWidthPadding, height: titleLabel.frame.height)
             textContainer.addSubview(titleLabel)
             textAreaPositionY += titleLabel.frame.height + 5.0
         }
         
         // MessageView
         if (hasMessage) {
-            messageView.frame.size    = CGSize(width: innerContentWidth, height: 0.0)
+            messageView.frame.size    = CGSize(width: innerContentWidth - 2 * innerContentWidthPadding, height: 0.0)
             messageView.numberOfLines = 0
             messageView.textAlignment = .Center
             messageView.font          = messageFont
             messageView.textColor     = messageTextColor
             messageView.text          = message
             messageView.sizeToFit()
-            messageView.frame         = CGRect(x: 0, y: textAreaPositionY, width: innerContentWidth, height: messageView.frame.height)
+            messageView.frame         = CGRect(x: innerContentWidthPadding, y: textAreaPositionY, width: innerContentWidth - 2 * innerContentWidthPadding, height: messageView.frame.height)
             textContainer.addSubview(messageView)
             textAreaPositionY += messageView.frame.height + 5.0
         }
