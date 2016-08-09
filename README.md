@@ -71,8 +71,8 @@ You can create a theme to make the alert view different. Like this
 
 > shape 
 
-	internal typealias CornerRadius = CGFloat
-	enum JESAlertViewShape {
+	public typealias CornerRadius = CGFloat
+	public enum JESAlertViewShape {
      	case Squared
      	case Rounded(CornerRadius)
 	}
