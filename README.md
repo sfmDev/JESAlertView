@@ -12,7 +12,7 @@
 
 </p>
 
-An alert view written by swift 2.2. Support both action sheet and alert view style.
+An alert view written by swift 2.2, support both action sheet and alert view style.
 
 ## Screenshots
 
